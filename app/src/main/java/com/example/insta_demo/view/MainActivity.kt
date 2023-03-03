@@ -1,13 +1,12 @@
-package com.example.insta_demo
+package com.example.insta_demo.view
 
 
-//import kotlinx.android.synthetic.main.activity_main.*
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.example.insta_demo.databinding.ActivityFeedBinding
 import com.example.insta_demo.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -24,6 +23,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         auth = Firebase.auth
+
+        val currentUser = auth.currentUser
+
+        if(currentUser != null){
+            val intent = Intent(this, FeedActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     fun signInClick(view: View){
@@ -34,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Enter email or password!", Toast.LENGTH_LONG).show()
         } else{
             auth.signInWithEmailAndPassword(email,password).addOnSuccessListener{
-                val intent = Intent(this@MainActivity,FeedActivity::class.java)
+                val intent = Intent(this@MainActivity, FeedActivity::class.java)
                 startActivity(intent)
                 finish()
             }.addOnFailureListener {
@@ -53,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Enter email or password!", Toast.LENGTH_LONG).show()
         } else{
             auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener{
-                val intent = Intent(this@MainActivity,FeedActivity::class.java)
+                val intent = Intent(this@MainActivity, FeedActivity::class.java)
                 startActivity(intent)
                 finish()
             }.addOnFailureListener {
